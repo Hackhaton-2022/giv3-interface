@@ -1,7 +1,75 @@
+import { ethers } from "ethers";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
-
+import { useContractWrite, useContractRead } from 'wagmi';
+import { contractABI, contractAddress, usdtContractABI, usdtContractAddress } from '../contract'
 
 const Donate = () => {
+
+    // const {refetch} = useContractRead({
+    //     addressOrName: contractAddress,
+    //     contractInterface: contractABI,
+    //     functionName: 'hasJoinedDAO',
+    //     args: '0',
+    // })
+
+    const [usdt, setUSDT] = useState(0);
+
+    const joinDAO = useContractWrite({
+        addressOrName: contractAddress,
+        contractInterface: contractABI,
+        functionName: 'joinDAO',
+        args: [1],
+        onSuccess(data) {
+            console.log("Success", data);
+        }
+    })
+
+    const approve = useContractWrite({
+        addressOrName: usdtContractAddress,
+        contractInterface: usdtContractABI,
+        functionName: 'approve',
+        args: [contractAddress, usdt],
+        onSuccess(data) {
+            console.log("Success", data);
+        }
+    })
+
+    const donate = useContractWrite({
+        addressOrName: contractAddress,
+        contractInterface: contractABI,
+        functionName: 'donate',
+        args: [1, usdt],
+        onSuccess(data) {
+            console.log("Success", data);
+        }
+    })
+
+    const handleJoin = () => {
+        // console.log("This is working!");
+        joinDAO.write();
+    }
+
+    // const checkJoin = () => {
+
+    // }
+
+    const handleApprove = () => {
+        // console.log("This is working!!");
+        approve.write();
+    }
+
+    const handleDonate = () => {
+        // console.log("This is working!!!");
+        donate.write();
+    }
+
+    // useEffect(() => {
+    //     const res = refetch();
+    //     console.log(res);
+    // }, []);
+
+
     return (
         <div>
             <Navbar></Navbar>
@@ -11,9 +79,14 @@ const Donate = () => {
                     <div className="absolute left-[798px] top-[132px] h-[427px] w-[391px]">
                         <div className="absolute left-[0] top-[0] h-1.5 w-[391px] bg-[rgba(250,170,57,1)]" />
                         <div className="absolute left-[0] top-[264px] h-[46px] w-[391px]">
-                            <div className="absolute left-[0] top-[0] h-[46px] w-[391px] border border-solid rounded-lg border-[rgba(250,170,57,1)] bg-[rgba(250,170,57,1)]">
-                                <button className="absolute top-3.5 left-[124px] inline text-sm leading-[18px] text-white">Donate to this project</button>
-                            </div>
+                        
+                        <div className="space-x-2">
+                            <button className="bg-[#FAAA39] py-2 px-3 rounded-lg" onClick={handleJoin} >Join</button>
+                            <input className="shadow appearance-none border border-gray-400 hover:border-gray-500 rounded w-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" placeholder="USDT" required
+                            onChange={(e)=>{setUSDT(e.target.value)}}></input>
+                            <button className="bg-[#FAAA39] py-2 px-3 rounded-lg" onClick={()=>{approve.write()}}>Approve</button>
+                            <button className="bg-[#FAAA39] py-2 px-3 rounded-lg" onClick={handleDonate}>Donate</button>
+                        </div>
                         </div>
                         <div className="absolute left-[239px] top-[341px] inline-flex items-center justify-start gap-6">
                             {/* <Group />
@@ -46,7 +119,7 @@ const Donate = () => {
                             </p>
                         </div>
                         <div className="absolute left-[0] top-[328px] h-11 w-[196px]">
-                            <div className="absolute left-[0] top-[0] h-11 w-[196px] border border-solid border-[rgba(209,209,209,1)] bg-white rounded-lg"/>
+                            <div className="absolute left-[0] top-[0] h-11 w-[196px] border border-solid border-[rgba(209,209,209,1)] bg-white rounded-lg" />
                             {/* <Group4 /> */}
                             <p className="absolute top-3 left-[73px] inline text-center text-sm leading-[21px] text-[rgba(40,40,40,1)]">
                                 Remind me
@@ -136,6 +209,7 @@ const Donate = () => {
                     </div>
                 </div> */}
             </div>
-        </div>);
+        </div>
+        );
 };
 export default Donate;

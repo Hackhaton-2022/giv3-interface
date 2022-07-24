@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { contractABI, contractAddress, usdtContractABI, usdtContractAddress } from '../contract'
 import {
     useAccount,
     useConnect,
     useDisconnect,
     useEnsAvatar,
     useEnsName,
+    useBalance
 } from 'wagmi'
 
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
@@ -14,9 +16,18 @@ const Navbar = () => {
     const { address, connector, isConnected } = useAccount()
     const { data: ensAvatar } = useEnsAvatar({ addressOrName: address })
     const { data: ensName } = useEnsName({ address })
-    const { connect, connectors, error, isLoading, pendingConnector } =
-        useConnect()
+    const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
     const { disconnect } = useDisconnect()
+
+    // const balance = useBalance({
+    //     addressOrName: usdtContractAddress,
+    //     chainId: 80001,
+    // })
+
+    // const handleBalance = async () => {
+    //     const res = balance.refetch();
+    //     console.log("This is working")
+    // }
 
     return (
         <div>
@@ -35,6 +46,7 @@ const Navbar = () => {
                         {isConnected ?
                             (<>
                                 {/* <div>Connected to {connector.name}</div> */}
+                                {/* {()=>{handleBalance()}} */}
                                 <button className="bg-[#FAAA39] rounded-md py-1 px-3"
                                 onClick={disconnect}>{ensName ? `${ensName} (${address.substring(0, 6)}... (Disconnect))` : address.substring(0, 6)}... (Disconnect)</button>
 

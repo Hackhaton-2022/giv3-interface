@@ -21,20 +21,11 @@ const Create = () => {
 
     const handleSubmit = (e) => {
 
-        e.preventDefault();
-
-        // const name = e.target.name.value;
-        // const desc = e.target.desc.value;
-
-        // e.preventDefault();
-        // console.log(e.target.name.value);
-        // console.log(e.target.desc.value);
-        
+        e.preventDefault();        
         write();
 
     }
     
-
     return (
         <div>
             <div className="bg-white">

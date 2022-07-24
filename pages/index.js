@@ -29,16 +29,15 @@ export default function Home() {
               </div>
             </div>
             <div className="py-5">
-              <button className="rounded-md bg-[#FAAA39] w-80 py-3">                
-                {/* <span className="text-white text-md">Create A DAO</span>   */}
-                <a href="../create" className="text-white text-md">Create A DAO</a>
-              </button>
+                <a href="../create" className="text-white text-md">
+                  <button className="rounded-md bg-[#FAAA39] w-80 py-3"> Create A DAO</button>
+                </a>
             </div>
           </div>
 
           <div className="bg-white py-5 px-20 backdrop-filter backdrop-blur-sm bg-opacity-10">
             <span className="text-2xl font-bold">Explore Organizations</span>
-            <div className="flex space-x-10">
+            <div className="flex space-x-10 py-5">
                 <Card status={false}></Card>
                 <Card status={true}></Card>
                 <Card status={true}></Card>
